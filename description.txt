@@ -1,7 +1,6 @@
 https://github.com/moppimies/cybermooc
 Using Django and OWASP 2021 list.
 
-Idea: katsotaan kurssimatskuista virheitä ja siirretään ne omaan sovellukseen
 
 admin:admin
 password:passwordd123
@@ -9,9 +8,13 @@ password:passwordd123
 Broken access control, samalla vaikka injecetion
 
 FLAW 1: A03:2021 – Injection
-exact source link pinpointing flaw 1...
-description of flaw 1...
-how to fix it...
+Python-file "views.py" in a function vote. https://github.com/moppimies/CyberMOOCProject/blob/55110b549785b0a0e9084708f77fd96ea8d5fc40/polls/views.py#L32
+
+Injection is listed as a third most common security risk in OWASP top 10 web application security risks. In worst case scenario attacker can modify data in the database or get sensitive data such as names, passwords, emails, social security numbers, street adresses etc.
+In this case I present unsafe SQL query which is prone to injections. SQL queries which are prone to injection are unsanitazed and easily injectable by a malicous user. 
+
+The fix is provided in the code. It is not commented out. The fix is rather simple because it uses django models which are tested and safe for the most part.
+
 
 FLAW 2:
 exact source link pinpointing flaw 2...
