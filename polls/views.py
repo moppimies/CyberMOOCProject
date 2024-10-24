@@ -3,7 +3,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 import sqlite3
-#from django.db import connection
+from django.db import connection
 
 
 from .models import Question, Choice
@@ -29,12 +29,16 @@ def results(request, question_id):
     return render(request, 'polls/results.html', {'question': question})
 
 def vote(request, question_id):
+    #This is vulnarable to SQL injections, I have fixed it by using by using django methods and models which tested and safe.
+    #conn = sqlite3.connect("db.sqlite3")
+    #cursor = connection.cursor()
+    #cursor.execute(f"UPDATE polls_choice SET votes = votes+1 WHERE id = {question_id}" )
+    #conn.commit()
+    question = Question.objects.raw(f"SELECT pk=question_id FROM myapp_question")
+    question = get_object_or_404(Question, pk=question_id)
+  
 
-    conn = sqlite3.connect("db.sqlite3")
-    cursor = conn.cursor()
-
-    #question = Question.objects.raw("SELECT pk=question_id FROM myapp_question")
-    #question = get_object_or_404(Question, pk=question_id)
+    Choice.objects.raw(f"UPDATE polls_choice SET votes = {1} WHERE id = {question_id}")
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
@@ -42,6 +46,6 @@ def vote(request, question_id):
     else:
         selected_choice.votes += 1
         selected_choice.save()
-        return HttpResponseRedirect(reverse('polls:results', args=(question_id,)))
+    return HttpResponseRedirect(reverse('polls:results', args=(question_id,)))
 
 
