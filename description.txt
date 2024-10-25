@@ -25,6 +25,13 @@ In this example attacker could possibly vote for the blog chosen by the attacker
 
 Like with previous flaw there is built-in methods and middlewares in django which provide fix for the problem. Django.middleware.csrf imported in settings.py does just that which allows user to use csrf-tokens easily.
 
+FLAW 3: A09 - Security Logging and Monitoring Failures
+Project flaw is in polls/views.py/vote function.
+
+The polls apps idea is to test that user is logged in before he can vote. The flaw is present if there is "@login_required" decorator. This is a security flaw because non-authorizated users can vote which not the idea of app. Attacker could use a script or a botnet of multiple computers inorder to influnce the result of the poll.
+
+Fix is rather simple with Django because there is built in authentication system. Especially django.contrib.auth library contains many useful tools to authenticate users. Using these still require some version management from the site host, so that the outdated/flawrd libraries don't go to production.
+
 
 
 ...

@@ -1,7 +1,7 @@
 
 <h1>Logout</h1>
 <p>Logout?</p>
-<form method="post" action="{% url 'logout' %}">
+<form method="post" action="{% url '../logout' %}">
 {% csrf_token %}
 <input type="submit" value="Logout">
 </form>

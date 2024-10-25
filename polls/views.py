@@ -5,6 +5,7 @@ from django.urls import reverse
 import sqlite3
 from django.db import connection
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
 from .models import Question, Choice
@@ -50,6 +51,7 @@ def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, 'polls/results.html', {'question': question})
 
+@login_required
 def vote(request, question_id):
     #This is vulnarable to SQL injections, I have fixed it by using by using django methods and models which for the most part are tested and safe.
     #conn = sqlite3.connect("db.sqlite3")

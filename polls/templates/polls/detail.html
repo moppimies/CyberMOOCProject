@@ -10,3 +10,6 @@
     {% endfor %}
     <input type="submit" value="vote">
 </form>
+<form action="{% url 'polls:logout'%}" method="post">
+    <input type="submit" value="Logout">
+</form>

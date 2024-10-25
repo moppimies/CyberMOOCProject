@@ -6,7 +6,7 @@ app_name = 'polls'
 
 urlpatterns = [
     path('',index,name='index'),
-    path('logout/', login_view, name='logout'),
+    path('/logout', logout_view, name='logout'),
     path('login/', login_view, name='login'),
     path('<int:question_id>/', detail, name='detail'),
     path('<int:question_id>/results', results, name='results'),
