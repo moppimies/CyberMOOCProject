@@ -1,12 +1,34 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 import sqlite3
 from django.db import connection
+from django.contrib.auth import authenticate, login, logout
 
 
 from .models import Question, Choice
+#Login page so I can make a OWASP 9, security loggin failure. Issue: User can vote without logging in
+def index(request):
+    redirect('login/')
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username,password = password)
+        if user is not None: 
+            login(request,user)
+            return redirect('/polls')
+        else:
+            return render(request, 'polls/login.html', {'error': 'Invalid credentials.'})
+    else:
+        return render(request, 'polls/login.html')
+    
+def logout_view(request):
+    logout(request)
+    return redirect('/login')
+
 
 def index(request):
     question_list = Question.objects.order_by('pub_date')[:5]
@@ -29,12 +51,12 @@ def results(request, question_id):
     return render(request, 'polls/results.html', {'question': question})
 
 def vote(request, question_id):
-    #This is vulnarable to SQL injections, I have fixed it by using by using django methods and models which tested and safe.
+    #This is vulnarable to SQL injections, I have fixed it by using by using django methods and models which for the most part are tested and safe.
     #conn = sqlite3.connect("db.sqlite3")
     #cursor = connection.cursor()
     #cursor.execute(f"UPDATE polls_choice SET votes = votes+1 WHERE id = {question_id}" )
     #conn.commit()
-    question = Question.objects.raw(f"SELECT pk=question_id FROM myapp_question")
+    #question = Question.objects.raw(f"SELECT pk=question_id FROM myapp_question")
     question = get_object_or_404(Question, pk=question_id)
   
 

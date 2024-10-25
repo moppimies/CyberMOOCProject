@@ -1,25 +1,31 @@
 https://github.com/moppimies/cybermooc
 Using Django and OWASP 2021 list.
 
-
+username:user
+password: passwordd123
 admin:admin
 password:passwordd123
 
 Broken access control, samalla vaikka injecetion
 
-FLAW 1: A03:2021 – Injection
-Python-file "views.py" in a function vote. https://github.com/moppimies/CyberMOOCProject/blob/55110b549785b0a0e9084708f77fd96ea8d5fc40/polls/views.py#L32
+FLAW 1, A03:2021 – Injection:
+Python-file "views.py" in the function vote. https://github.com/moppimies/CyberMOOCProject/blob/55110b549785b0a0e9084708f77fd96ea8d5fc40/polls/views.py#L32
 
-Injection is listed as a third most common security risk in OWASP top 10 web application security risks. In worst case scenario attacker can modify data in the database or get sensitive data such as names, passwords, emails, social security numbers, street adresses etc.
+I made a function which queries the database without any user input sanitazitation. User could potentially inject malicious query by injecting malicious code in query. If user could enter custom question_id, user could modify the whole query.
+Injection is listed as a third most common security risk in 2021 OWASP top 10 web application security risks. In worst case scenario attacker can modify data in the database or get sensitive data such as names, passwords, emails, social security numbers, street adresses etc.
 In this case I present unsafe SQL query which is prone to injections. SQL queries which are prone to injection are unsanitazed and easily injectable by a malicous user. 
 
 The fix is provided in the code. It is not commented out. The fix is rather simple because it uses django models which are tested and safe for the most part.
 
+FLAW 2: CSRF-token missing.
+Python file "settings.py" where the django csrf middleware is imported and html file detail.html. "github line here"
 
-FLAW 2:
-exact source link pinpointing flaw 2...
-description of flaw 2...
-how to fix it...
+Although not mentioned in the OWASP 2021 top 10 web application security risks it is a potentially very hazardous. CSRF was one of the main topics handled in the course. Modern web frameworks typically contains CSRF-token validation when the state of the website changes, usually the state changes happen when the POST-method is used.
+In this example attacker could possibly vote for the blog chosen by the attacker. 
+
+Like with previous flaw there is built-in methods and middlewares in django which provide fix for the problem. Django.middleware.csrf imported in settings.py does just that which allows user to use csrf-tokens easily.
+
+
 
 ...
 
