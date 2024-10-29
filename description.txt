@@ -1,4 +1,4 @@
-https://github.com/moppimies/cybermooc
+https://github.com/moppimies/CyberMOOCProject
 Using Django and OWASP 2021 list.
 
 Requires Django
