@@ -3,7 +3,7 @@
     <p>{{error}}</p> 
 {% endif %}
 <form method="post" action ="{% url 'polls:login' %}">
-    {% csrf_token %}
+    {% csrf_token %}<!--If forgotten creating flaw 2-->
     <input type="text" name="username" placeholder="username"><br>
     <input type="text" name="password" placeholder="password"><br>
     <input type="submit" value="Login">  

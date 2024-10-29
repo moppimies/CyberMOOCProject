@@ -2,6 +2,6 @@
 <h1>Logout</h1>
 <p>Logout?</p>
 <form method="post" action="{% url '../logout' %}">
-{% csrf_token %}
+<!--{% csrf_token %}--><!--If forgotten creating flaw 2-->
 <input type="submit" value="Logout">
 </form>

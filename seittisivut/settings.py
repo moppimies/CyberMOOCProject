@@ -20,6 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+#FLAW 5 here. This is not supposed to go on the public github page but is there.
 SECRET_KEY = "django-insecure-wxi%rm_#y2zhyn=ul-f+-0&o1lx=ts-k#1v=%81&6*ao^0!%2+"
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -44,7 +45,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    #"django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware", #If this import is forgotten, csrf token is unavailable thus creating flaw 2
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -85,6 +86,22 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
+#If this is not present, admin can define a client which doesn't require a strong password
+
+#AUTH_PASSWORD_VALIDATORS = [
+#    {
+#        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+#    },
+#    {
+#        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+#    },
+#    {
+#        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+#    },
+#    {
+#        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+#    },
+#]
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
