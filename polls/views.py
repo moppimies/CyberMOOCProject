@@ -51,7 +51,7 @@ def detail(request, question_id):
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, 'polls/results.html', {'question': question})
-
+#Flaw 3 if this decorator is missing
 @login_required
 def vote(request, question_id):
     #This is vulnarable to SQL injections, I have fixed it by using by using django methods and models which for the most part are tested and safe.
@@ -59,7 +59,6 @@ def vote(request, question_id):
     #cursor = connection.cursor()
     #cursor.execute(f"UPDATE polls_choice SET votes = votes+1 WHERE id = {question_id}" )
     #conn.commit()
-    #question = Question.objects.raw(f"SELECT pk=question_id FROM myapp_question")
     question = get_object_or_404(Question, pk=question_id)
   
 
