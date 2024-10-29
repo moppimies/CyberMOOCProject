@@ -10,8 +10,6 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Question, Choice
 #Login page so I can make a OWASP 9, security loggin failure. Issue: User can vote without logging in
-def index(request):
-    redirect('login/')
 
 def login_view(request):
     if request.method == 'POST':
@@ -32,11 +30,14 @@ def logout_view(request):
 
 
 def index(request):
-    question_list = Question.objects.order_by('pub_date')[:5]
-    #template = loader.get_template('polls/index.html')
-    context = {'latest_question_list': question_list ,}
-    #return HttpResponse(template.render(context, request))
-    return render(request, 'polls/index.html', context)
+    if request.user.is_authenticated:
+        question_list = Question.objects.order_by('pub_date')[:5]
+        #template = loader.get_template('polls/index.html')
+        context = {'latest_question_list': question_list ,}
+        #return HttpResponse(template.render(context, request))
+        return render(request, 'polls/index.html', context)
+    else:   
+        return render(request, 'polls/login.html')
 
 def detail(request, question_id):
     try:

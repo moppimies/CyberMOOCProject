@@ -11,5 +11,6 @@
     <input type="submit" value="vote">
 </form>
 <form action="{% url 'polls:logout'%}" method="post">
+    {% csrf_token %}
     <input type="submit" value="Logout">
 </form>
