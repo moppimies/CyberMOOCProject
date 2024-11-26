@@ -10,8 +10,6 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Question, Choice
 #Login page so I can make a OWASP 9, security loggin failure. Issue: User can vote without logging in
-def index(request):
-    redirect('login/')
 
 def login_view(request):
     if request.method == 'POST':
@@ -32,11 +30,14 @@ def logout_view(request):
 
 
 def index(request):
-    question_list = Question.objects.order_by('pub_date')[:5]
-    #template = loader.get_template('polls/index.html')
-    context = {'latest_question_list': question_list ,}
-    #return HttpResponse(template.render(context, request))
-    return render(request, 'polls/index.html', context)
+    if request.user.is_authenticated:
+        question_list = Question.objects.order_by('pub_date')[:5]
+        #template = loader.get_template('polls/index.html')
+        context = {'latest_question_list': question_list ,}
+        #return HttpResponse(template.render(context, request))
+        return render(request, 'polls/index.html', context)
+    else:   
+        return render(request, 'polls/login.html')
 
 def detail(request, question_id):
     try:
@@ -50,16 +51,25 @@ def detail(request, question_id):
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, 'polls/results.html', {'question': question})
-
+#Flaw 3 if this decorator is missing
 @login_required
 def vote(request, question_id):
     #This is vulnarable to SQL injections, I have fixed it by using by using django methods and models which for the most part are tested and safe.
+<<<<<<< HEAD
     choice = request.POST['choice']
     conn = sqlite3.connect("db.sqlite3")
     cursor = connection.cursor()
     cursor.execute(f"UPDATE polls_choice SET votes = votes+1 WHERE question_id = {question_id} AND id = {choice}" ) #id = request.POST['choice'] ja sitten frontille voi laittaa jonku tekstilaatikon
     conn.commit()
     
+=======
+    #conn = sqlite3.connect("db.sqlite3")
+    #cursor = connection.cursor()
+    #cursor.execute(f"UPDATE polls_choice SET votes = votes+1 WHERE id = {question_id}" )
+    #conn.commit()
+    question = get_object_or_404(Question, pk=question_id)
+  
+>>>>>>> 8ef8536cdbe6c1317f290ac2a5022d02044a53e0
 
     #question = get_object_or_404(Question, pk=question_id)
     '''

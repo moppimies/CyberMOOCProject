@@ -86,22 +86,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
-#If this is not present, admin can define a client which doesn't require a strong password
-
-#AUTH_PASSWORD_VALIDATORS = [
-#    {
-#        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-#    },
-#    {
-#        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-#    },
-#    {
-#        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-#    },
-#    {
-#        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-#    },
-#]
+#If AUTH_PASSWORD_VALIDATORS is not present, admin can define a client which doesn't require a strong password
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
