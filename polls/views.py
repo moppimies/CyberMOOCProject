@@ -58,7 +58,7 @@ def vote(request, question_id):
     choice = request.POST['choice']
     conn = sqlite3.connect("db.sqlite3")
     cursor = connection.cursor()
-    cursor.execute("UPDATE polls_choice SET votes = votes+1 WHERE question_id = %s AND id = %s" %(question_id, choice) )
+    cursor.execute(f"UPDATE polls_choice SET votes = votes+1 WHERE question_id = {question_id} AND id = {choice}")
     conn.commit()
     '''
     question = get_object_or_404(Question, pk=question_id)
