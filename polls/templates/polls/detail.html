@@ -5,11 +5,11 @@
 <form action="{% url 'polls:vote' question.id %}" method="post" >
     {%csrf_token%} <!--If forgotten creating flaw 2-->
     {% for choice in question.choice_set.all %}
-        <!-- Flaw 1-->     
+        <!-- Flaw 1 fix partly-->     
         <!-- <input type ="radio" name ="choice" id = "choice{{forloop.counter}}" value="{{choice.id}}"> -->
         <label for="choice{{forloop.counter}}"> {{choice.choice_text}} id:{{choice.id}}</label><br>
     {% endfor %}
-    <label>Give the id of the text you want to vote</label>
+    <label>Give the id of the text you want to vote:</label>
     <input type="text" name="choice" value="1">
     <input type="submit" value="vote">
 </form>
