@@ -54,15 +54,15 @@ def results(request, question_id):
 @login_required
 def vote(request, question_id):
     #This is vulnarable to SQL injections, I have fixed it by using by using django methods and models which for the most part are tested and safe.
-    #conn = sqlite3.connect("db.sqlite3")
-    #cursor = connection.cursor()
-    #cursor.execute(f"UPDATE polls_choice SET votes = votes+1 WHERE id = {question_id}" )
-    #conn.commit()
-    #question = Question.objects.raw(f"SELECT pk=question_id FROM myapp_question")
-    question = get_object_or_404(Question, pk=question_id)
-  
+    choice = request.POST['choice']
+    conn = sqlite3.connect("db.sqlite3")
+    cursor = connection.cursor()
+    cursor.execute(f"UPDATE polls_choice SET votes = votes+1 WHERE question_id = {question_id} AND id = {choice}" ) #id = request.POST['choice'] ja sitten frontille voi laittaa jonku tekstilaatikon
+    conn.commit()
+    
 
-    Choice.objects.raw(f"UPDATE polls_choice SET votes = {1} WHERE id = {question_id}")
+    #question = get_object_or_404(Question, pk=question_id)
+    '''
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
@@ -70,6 +70,7 @@ def vote(request, question_id):
     else:
         selected_choice.votes += 1
         selected_choice.save()
+    '''
     return HttpResponseRedirect(reverse('polls:results', args=(question_id,)))
 
 
