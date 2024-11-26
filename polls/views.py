@@ -58,12 +58,11 @@ def vote(request, question_id):
     choice = request.POST['choice']
     conn = sqlite3.connect("db.sqlite3")
     cursor = connection.cursor()
-    cursor.execute(f"UPDATE polls_choice SET votes = votes+1 WHERE question_id = {question_id} AND id = {choice}" ) #id = request.POST['choice'] ja sitten frontille voi laittaa jonku tekstilaatikon
+    cursor.execute("UPDATE polls_choice SET votes = votes+1 WHERE question_id = %s AND id = %s" %(question_id, choice) )
     conn.commit()
-    
-
-    #question = get_object_or_404(Question, pk=question_id)
     '''
+    question = get_object_or_404(Question, pk=question_id)
+    
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
